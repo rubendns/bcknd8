@@ -4,6 +4,7 @@ import ProductsExtendRouter from './routes/products.extended.router.js';
 import CartExtendRouter from './routes/carts.extended.router.js';
 //import { ProductRouter } from "./routes/products.router.js";
 //import { CartsRouter } from "./routes/carts.router.js";
+import mockingRouter from "./routes/mocking.router.js";
 import handlebars from "express-handlebars";
 import __dirname from "./utils.js";
 import { viewsRouter } from "./routes/views.router.js";
@@ -95,8 +96,10 @@ const cartsExtRouter = new CartExtendRouter();
 app.use("/users", userExtRouter.getRouter());
 app.use("/api/products", productsExtRouter.getRouter());
 app.use("/api/carts", cartsExtRouter.getRouter());
-
 app.use("/api/email", emailRouter);
+
+app.use("/mockingrouter", mockingRouter);
+
 app.use("/api/sessions", sessionsRouter);
 app.use("/api/jwt", jwtRouter);
 app.use("/github", githubLoginViewRouter);
