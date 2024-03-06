@@ -6,7 +6,6 @@ import {
   getProductById,
   updateProduct
 } from "../controllers/products.controller.js";
-
 export default class ProductExtendRouter extends CustomRouter {
   init() {
 

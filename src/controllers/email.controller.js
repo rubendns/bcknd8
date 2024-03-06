@@ -28,7 +28,6 @@ const mailOptions = {
     attachments: []
 }
 
-
 const mailOptionsWithAttachments = {
     from: "Coder Test - " + config.gmailAccount,
     to: `${config.gmailAccount}`,
@@ -47,7 +46,6 @@ const mailOptionsWithAttachments = {
     ]
 }
 
-
 export const sendEmail = (req, res) => {
     try {
         let result = transporter.sendMail(mailOptions, (error, info) => {
@@ -64,7 +62,6 @@ export const sendEmail = (req, res) => {
     }
 }
 
-
 export const sendEmailWithAttachments = (req, res) => {
     try {
         let result = transporter.sendMail(mailOptionsWithAttachments, (error, info) => {
@@ -80,10 +77,3 @@ export const sendEmailWithAttachments = (req, res) => {
         res.status(500).send({ error: error, message: "Could not send email from:" + config.gmailAccount });
     }
 }
-
-
-
-
-
-
-

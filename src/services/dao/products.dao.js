@@ -1,5 +1,4 @@
 import { productModel } from "../models/products.model.js";
-
 class ProductDao {
   async getAllProducts(page, limit, sort) {
     try {

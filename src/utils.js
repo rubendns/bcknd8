@@ -3,6 +3,7 @@ import { dirname } from "path";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import {faker} from "@faker-js/faker";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -76,6 +77,19 @@ export const authorization = (role) => {
         .send("Forbidden: The user does not have permissions with this role.");
     }
     next();
+  };
+};
+
+export const generateProducts = () => {
+  return {
+    title: faker.commerce.productName(),
+    description: faker.lorem.paragraph(),
+    code: faker.string.uuid(),
+    price: faker.commerce.price(),
+    status: faker.datatype.boolean(),
+    stock: faker.string.numeric(2),
+    category: faker.commerce.department(),
+    thumbnail: faker.image.url(),
   };
 };
 

@@ -2,7 +2,6 @@ import userModel from "../services/models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { PRIVATE_KEY } from "../utils.js";
-
 class UserService {
     async registerUser(userData) {
         try {

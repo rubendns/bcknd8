@@ -1,16 +1,14 @@
 import cartsService from "../services/carts.services.js";
-import CartDao from '../services/dao/carts.dao.js'
+import { CartDao } from '../services/dao/carts.dao.js'
 import { updateStockController } from './products.controller.js'
 import { createTicket } from '../controllers/tickets.controller.js'
 import { sendEmail } from './email.controller.js';
-
-const cartDao = new CartDao();
 
 async function purchaseCart (req, res) {
     try {
         const cartId = req.params.cid;
         // obtengo los productos del carrito
-        const productsFromCart = await getProductsFromCartById(cartId);
+        const productsFromCart = await CartDao.getProductsFromCartById(cartId);
         //  le envio el arreglo de productos y que me devuelva un array de validos e invalidos
         const { validProducts, invalidProducts } = evaluateStock(productsFromCart);
         // lo validos deben bajar stock
@@ -20,10 +18,10 @@ async function purchaseCart (req, res) {
         // Sumar al total
         grandTotal += product.productId.price * product.quantity;
         // Actualizar stock
-        await updateStock(product.productId, product.quantity);
+        await CartDao.updateStock(product.productId, product.quantity);
         // Eliminar producto del carrito
         const reqs = { cid: cartId, pid: product.productId };
-        await deleteProductFromCartById(reqs, res);
+        await CartDao.deleteProductFromCartById(reqs, res);
         }
         // Si hay productos válidos, crear el ticket
         if (validProducts.length > 0) {
@@ -61,7 +59,7 @@ function evaluateStock(productsFromCart) {
     return { validProducts, invalidProducts };
 }
 
-async function getAllCarts(req, res) {
+async function getAllCarts (req, res) {
     try {
         let carts = await cartsService.getAllCarts();
         res.json({
@@ -76,7 +74,7 @@ async function getAllCarts(req, res) {
     }
 }
 
-async function getCartById(req, res) {
+async function getCartById (req, res) {
     try {
         let cid = req.params.cid;
         let cart = await cartsService.getCartById(cid);
@@ -92,9 +90,9 @@ async function getCartById(req, res) {
 async function getCartByUserId (req, res) {
     const userId = req.params.uid;
     try {
-        const cart = await cartDao.getCartByUserId(userId);
+        const cart = await CartDao.getCartByUserId(userId);
         if (!cart) {
-            await cartDao.createCart(userId);
+            await CartDao.createCart(userId);
         }
         res.render("cart", {
         fileFavicon: "favicon.ico",

@@ -1,5 +1,4 @@
 import { ticketModel } from "../models/ticket.model.js";
-
 class TicketDao {
   async createTicket(ticketData) {
     try {

@@ -1,5 +1,4 @@
 import userModel from "../models/user.model.js";
-
 class UserDao {
     async getUserById(userId) {
         try {

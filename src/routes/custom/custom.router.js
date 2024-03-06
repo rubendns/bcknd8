@@ -2,7 +2,6 @@ import { Router } from "express";
 import jwt from "jsonwebtoken";
 import { PRIVATE_KEY } from "../../utils.js";
 
-
 export default class CustomRouter {
   constructor() {
     this.router = Router();
@@ -57,7 +56,7 @@ export default class CustomRouter {
 
     //El JWT token se guarda en los headers de autorización.
     // const authHeader = req.headers.authorization;
-    // console.log("Token present in cookies:");
+    console.log("Token present in cookies:");
     const authHeader = req.cookies;
     // console.log(authHeader);
 

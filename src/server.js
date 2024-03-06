@@ -1,30 +1,24 @@
 import express from "express";
-import UserExtendRouter from './routes/users.extend.router.js';
-import ProductsExtendRouter from './routes/products.extended.router.js';
-import CartExtendRouter from './routes/carts.extended.router.js';
-//import { ProductRouter } from "./routes/products.router.js";
-//import { CartsRouter } from "./routes/carts.router.js";
-import mockingRouter from "./routes/mocking.router.js";
 import handlebars from "express-handlebars";
-import __dirname from "./utils.js";
-import { viewsRouter } from "./routes/views.router.js";
-import { Server } from "socket.io";
 import mongoose from "mongoose";
 import Handlebars from "handlebars";
-import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
-//import messagesDao from "./services/dao/messages.dao.js";
-import sessionsRouter from "./routes/sessions.router.js";
-import jwtRouter from "./routes/jwt.router.js";
-import userViewRouter from "./routes/users.views.router.js";
 import cookieParser from 'cookie-parser';
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
-import initializePassport from "./config/passport.config.js";
-import githubLoginViewRouter from "./routes/github-login.router.js";
-import config from './config/config.js';
 import cors from 'cors';
+import { Server } from "socket.io";
+
+import UserExtendRouter from './routes/users.extend.router.js';
+import ProductsExtendRouter from './routes/products.extended.router.js';
+import CartExtendRouter from './routes/carts.extended.router.js';
+import __dirname from "./utils.js";
+import { viewsRouter } from "./routes/views.router.js";
+import { allowInsecurePrototypeAccess } from "@handlebars/allow-prototype-access";
+import initializePassport from "./config/passport.config.js";
+import config from './config/config.js';
 import emailRouter from './routes/email.router.js';
+import mockingRouter from "./routes/mocking.router.js";
 
 const app = express();
 
@@ -93,44 +87,26 @@ const cartsExtRouter = new CartExtendRouter();
 //app.use("/users", userViewRouter);
 //app.use("/api/products", ProductRouter);
 //app.use("/api/carts", CartsRouter);
-app.use("/users", userExtRouter.getRouter());
+app.use("/api/users", userExtRouter.getRouter());
 app.use("/api/products", productsExtRouter.getRouter());
 app.use("/api/carts", cartsExtRouter.getRouter());
 app.use("/api/email", emailRouter);
-
-app.use("/mockingrouter", mockingRouter);
-
-app.use("/api/sessions", sessionsRouter);
-app.use("/api/jwt", jwtRouter);
-app.use("/github", githubLoginViewRouter);
+app.use("/mockingproducts", mockingRouter);
 app.get("/failure", (req, res) => {
   res.status(404).send("Error: Page not found");
 });
 
-const corsOptions = {
-  // Permitir solo solicitudes desde un cliente específico
-  origin: 'http://127.0.0.1:5502',
+// const corsOptions = {
+//   // Permitir solo solicitudes desde un cliente específico
+//   origin: 'http://127.0.0.1:5502',
 
-  // Configura los métodos HTTP permitidos
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//   // Configura los métodos HTTP permitidos
+//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 
-  // Configura las cabeceras permitidas
-  allowedHeaders: 'Content-Type,Authorization',
+//   // Configura las cabeceras permitidas
+//   allowedHeaders: 'Content-Type,Authorization',
 
-  // Configura si se permiten cookies en las solicitudes
-  credentials: true,
-};
-app.use(cors(corsOptions));
-
-// io.on("connection", (socket) => {
-//   console.log("New client connected: " + socket.id);
-
-//   socket.on("message", async (data) => {
-//     console.log(data);
-//     await messagesDao.createMessage(data);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log("Client disconnected: " + socket.id);
-//   });
-// });
+//   // Configura si se permiten cookies en las solicitudes
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));

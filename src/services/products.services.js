@@ -1,5 +1,4 @@
 import productDao from "../services/dao/products.dao.js";
-
 class ProductsService {
     async getAllProducts(page, limit, sort) {
         try {

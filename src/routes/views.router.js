@@ -11,10 +11,18 @@ const viewsRouter = Router();
 
 viewsRouter.use(cookieParser("CoderS3cr3tC0d3"));
 
-viewsRouter.get("/", (req, res) => {
-  res.render("login", {
-    title: "Login",
-  });
+viewsRouter.get("/", async (req, res) => {
+  try {
+    const products = await productsDao.getAllProducts();
+    res.render("products", {
+      title: "Products",
+      products,
+      userName: null, // No hay usuario logueado inicialmente
+    });
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 function auth(req, res, next) {
@@ -25,10 +33,13 @@ function auth(req, res, next) {
   }
 }
 
+viewsRouter.get("/login", (req, res) => {
+  res.render("login", { title: "Login" });
+});
+
 viewsRouter.get('/private', auth, (req, res) => {
   res.send("If you are seeing this it is because you have passed authorization to this resource!");
 });
-
 
 viewsRouter.get("/productManager", async (req, res) => {
   const products = await productsDao.getAllProducts();

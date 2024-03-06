@@ -13,7 +13,6 @@ import {
 export default class CartExtendRouter extends CustomRouter {
   init() {
 
-    // purchase cart
     this.post('/:cid/purchase', ["USER", "ADMIN"], async (req, res) => {
       purchaseCart(req, res)
         .then((result) => {
@@ -21,7 +20,6 @@ export default class CartExtendRouter extends CustomRouter {
         })
     });
 
-    // Get all carts
     this.get('/', ["ADMIN"], async (req, res) => {
       getAllCarts(req, res)
     });

@@ -2,20 +2,12 @@ import CustomRouter from "./custom/custom.router.js";
 import CartDao from "../services/dao/carts.dao.js"
 import { createHash, isValidPassword, generateJWToken } from "../utils.js";
 import passport from 'passport';
-//import { getUserProfileController } from "../controllers/users.controller.js";
-
-//ejemplo de router para usuario con politicas (aunq por practicidad aca son todas publicas)
 export default class UserExtendRouter extends CustomRouter {
   init() {
     const cartDao = new CartDao();
 
     this.get('/profile', ["USER", "ADMIN"], passport.authenticate('jwt', {session: false}), async (req, res) => {
-      //getUserProfileController
       res.render('profile', {
-        fileFavicon: "favicon.ico",
-        fileCss: "styles.css",
-        fileJs: "main.scripts.js",
-        title: "user profile",
         user: req.user // Trtabajando con JWT
       })
     });
@@ -31,13 +23,12 @@ export default class UserExtendRouter extends CustomRouter {
 
       const access_token = generateJWToken(user)
       res.cookie('jwtCookieToken', access_token, { httpOnly: true });
-      res.redirect("/");
-      // res.redirect("/")
+      res.redirect("/users");
     })
 
     // Register with passport
     this.post('/register', ["PUBLIC"], passport.authenticate('register', {
-      failureRedirect: 'api/users/fail-register'
+      failureRedirect: '/api/users/fail-register'
     }), async (req, res) => {
       await cartDao.createCart(req.user._id);
       res.status(201).send({ status: "success", message: "User crated successfully" });
@@ -46,7 +37,7 @@ export default class UserExtendRouter extends CustomRouter {
     // Login with passport
     this.post('/login', ["PUBLIC"], passport.authenticate('login',
       {
-        failureRedirect: 'api/session/fail-login'
+        failureRedirect: '/api/session/fail-login'
       }
     ), async (req, res) => {
       const user = req.user;
